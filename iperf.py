@@ -1,5 +1,5 @@
 import socket
-
+import subprocess
 def get_local_ip():
     
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -9,8 +9,17 @@ def get_local_ip():
     finally:
         s.close()
     return ip
-    
 
+def run_iperf(server_ip, duration, reverse, port):
+    
+    ip_address = get_local_ip()
+    
+    cmd = ["iperf3", "-c", server_ip, "-B", ip_address,"-t", str(duration),"-p", str(port), "--get-server-output"]
+    print(cmd)
+    subprocess.run(cmd, check=True)
+   
 if __name__ == "__main__":
     
     print(get_local_ip())
+    run_iperf("178.215.228.109", 50, False, 9206)
+    
