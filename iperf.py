@@ -14,12 +14,20 @@ def run_iperf(server_ip, duration, reverse, port):
     
     ip_address = get_local_ip()
     
-    cmd = ["iperf3", "-c", server_ip, "-B", ip_address,"-t", str(duration),"-p", str(port), "--get-server-output"]
+    cmd = [
+        "iperf3",
+        "-c", server_ip,
+        "-B", ip_address,
+        "-t", str(duration),
+        "-p", str(port),
+        "-R" if reverse else "--get-server-output"
+    ]
     print(cmd)
     subprocess.run(cmd, check=True)
    
 if __name__ == "__main__":
     
-    print(get_local_ip())
-    run_iperf("178.215.228.109", 50, False, 9206)
+    #run_iperf("178.215.228.109", 50, reverse = False, port= 9205)
+    run_iperf("178.215.228.109", 10, reverse = False, port= 9206)
+
     
